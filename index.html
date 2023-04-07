@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<!-- CSS -->
-	<style type="text/css">
-		body {
-			background-color: #f4f4f4;
-			text-align: center;
-		}
-		h1 {
-			font-size: 48px;
-			margin-top: 100px;
-		}
-	</style>
-</head>
-<body>
-	<!-- JavaScript -->
-	<script type="text/javascript">
-		setTimeout(function () {
-			window.location.href = "https://fr.pornhub.com/";
-		}, 50); // 0.05 seconds
+  <head>
+    <title>My Website</title>
+    <script type="text/javascript">
+      function incrementCounter() {
+        // Get current counter value
+        var counter = localStorage.getItem("counter");
 
-		// AJAX call to the Python script
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				console.log(this.responseText);
-			}
-		};
-		xhttp.open("GET", "visitor_count.py", true);
-		xhttp.send();
-	</script>
-</body>
+        // If counter does not exist, set it to 0
+        if (!counter) {
+          counter = 0;
+        }
+
+        // Increment counter
+        counter++;
+
+        // Update counter in local storage
+        localStorage.setItem("counter", counter);
+
+        // Save counter value to file
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "save.php");
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("counter=" + counter);
+      }
+    </script>
+  </head>
+  <body onload="incrementCounter()">
+    <h1>Welcome to My Website</h1>
+    <p>This website has been visited <span id="counter">0</span> times.</p>
+    <script type="text/javascript">
+      // Get counter value from local storage and update display
+      var counter = localStorage.getItem("counter");
+      document.getElementById("counter").innerHTML = counter;
+    </script>
+  </body>
 </html>
